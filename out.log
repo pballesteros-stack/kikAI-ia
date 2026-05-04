@@ -1,0 +1,18 @@
+
+> kikAI-ia@0.0.0 dev
+> vite
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vitejs.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+<anonymous_script>:1
+﻿{
+^
+
+[Failed to load PostCSS config: Failed to load PostCSS config (searchPath: D:/PROYECTO/KIKA IA SPA/PROYECTOS/SITIO CORPORATIVO/KIKAIA): [SyntaxError] Unexpected token '﻿', "﻿{
+  "name"... is not valid JSON
+SyntaxError: Unexpected token '﻿', "﻿{
+  "name"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at jsonLoader (file:///D:/PROYECTO/KIKA%20IA%20SPA/PROYECTOS/SITIO%20CORPORATIVO/KIKAIA/node_modules/vite/dist/node/chunks/dep-CDnG8rE7.js:25704:41)
+    at Object.search (file:///D:/PROYECTO/KIKA%20IA%20SPA/PROYECTOS/SITIO%20CORPORATIVO/KIKAIA/node_modules/vite/dist/node/chunks/dep-CDnG8rE7.js:25865:25)]
+
+Node.js v24.13.0
