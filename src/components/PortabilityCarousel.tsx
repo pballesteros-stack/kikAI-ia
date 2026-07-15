@@ -1,65 +1,147 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import { IMAGES } from '../config/site';
+import { motion, useScroll, useMotionValue, useMotionValueEvent, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+import { CAROUSEL } from '../config/site';
 
-// All carousel images pulled from central config — swap assets in src/config/site.ts
-const CAROUSEL_IMAGES = [
-  IMAGES.angle1,
-  IMAGES.angle2,
-  IMAGES.hero,
-  IMAGES.badge,
-  IMAGES.grip,
-];
+const THUMB_W = 150;
+const THUMB_H = 215;
+const GAP     = 20;
+const STEP    = THUMB_W + GAP;
 
 export const PortabilityCarousel = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef               = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActive]   = useState(0);
+  const images                     = CAROUSEL.images;
+  const N                          = images.length;
+  const xMV                        = useMotionValue(0);
+
+  // Initialize strip position so image 0 is centered in the viewport
+  useEffect(() => {
+    xMV.set(window.innerWidth / 2 - THUMB_W / 2);
+  }, [xMV]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start end', 'end start'],
+    offset: ['start start', 'end end'],
   });
 
-  // Slides from left to right as the user scrolls through the section
-  const xMovement = useTransform(scrollYProgress, [0, 1], ['-60vw', '10vw']);
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    const idx    = Math.round(v * (N - 1));
+    const startX = window.innerWidth / 2 - THUMB_W / 2;
+    const endX   = startX - (N - 1) * STEP;
+    xMV.set(startX + (endX - startX) * v);
+    setActive(idx);
+  });
 
   return (
-    <section ref={containerRef} className="relative h-[300vh] w-full bg-KIKIAI-olive">
-      {/* Content stays fixed in viewport while the section scrolls past */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+    <section
+      ref={containerRef}
+      className="relative w-full bg-ABAP-charcoal"
+      style={{ height: `${N * 80}vh` }}
+    >
+      <div className="sticky top-0 h-screen flex flex-col overflow-hidden">
 
-        <div className="absolute inset-0 bg-KIKIAI-black/50 mix-blend-overlay z-0 pointer-events-none" />
-
-        <div className="container mx-auto px-6 relative z-10 text-center mb-16 pt-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="font-headline text-5xl md:text-8xl text-KIKIAI-cream mb-6 tracking-tight uppercase"
-          >
-            SO PORTABLE, <br />
-            <span className="text-KIKIAI-black" style={{ WebkitTextStroke: '2px #FCFBF7' }}>IT'S WEARABLE.</span>
-          </motion.h2>
+        {/* ── Headline ─────────────────────────────────────────── */}
+        <div className="pt-20 px-10 md:px-16 z-20 relative">
+          <p className="font-body text-ABAP-cream/40 uppercase tracking-[0.22em] text-xs mb-3">
+            {CAROUSEL.issueTag}
+          </p>
+          <h2 className="font-headline text-5xl md:text-7xl text-ABAP-cream uppercase leading-none">
+            {CAROUSEL.headline}
+            <br />
+            <span style={{ WebkitTextStroke: '2px #FCFBF7', color: 'transparent' }}>
+              {CAROUSEL.highlight}
+            </span>
+          </h2>
         </div>
 
-        <div className="relative w-full overflow-hidden flex items-center justify-start z-10 py-10">
+        {/* ── Carousel area ────────────────────────────────────── */}
+        <div className="flex-1 relative flex items-center">
+
+          {/* Large featured image — fixed center */}
+          <div className="
+            absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+            z-10 w-[36vw] max-w-[480px] h-[54vh]
+            rounded-2xl overflow-hidden
+            shadow-[0_30px_80px_rgba(0,0,0,0.6)]
+            ring-1 ring-white/10
+          ">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeIndex}
+                src={images[activeIndex]}
+                alt={`Producto vista ${activeIndex + 1}`}
+                className="w-full h-full object-cover"
+                initial={{ opacity: 0, scale: 1.07 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.38, ease: 'easeOut' }}
+              />
+            </AnimatePresence>
+
+            {/* Subtle inner vignette */}
+            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_0_40px_rgba(0,0,0,0.4)] pointer-events-none" />
+          </div>
+
+          {/* Thumbnail strip — translates horizontally with scroll */}
+          <div className="absolute inset-0 flex items-center overflow-visible pointer-events-none">
+            <motion.div
+              className="flex items-center"
+              style={{ x: xMV, gap: GAP }}
+            >
+              {images.map((src, i) => (
+                <motion.div
+                  key={i}
+                  className="flex-shrink-0 overflow-hidden rounded-xl"
+                  style={{ width: THUMB_W, height: THUMB_H }}
+                  animate={{
+                    opacity : i === activeIndex ? 0   : 0.55,
+                    scale   : i === activeIndex ? 0.8 : 1,
+                  }}
+                  transition={{ duration: 0.38 }}
+                >
+                  <img
+                    src={src}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    draggable={false}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+        </div>
+
+        {/* ── Progress dots ─────────────────────────────────────── */}
+        <div className="flex justify-center gap-2 pb-4 z-20">
+          {images.map((_, i) => (
+            <motion.div
+              key={i}
+              className="rounded-full bg-ABAP-cream"
+              animate={{
+                width  : i === activeIndex ? 20 : 6,
+                opacity: i === activeIndex ? 1  : 0.3,
+              }}
+              style={{ height: 6 }}
+              transition={{ duration: 0.3 }}
+            />
+          ))}
+        </div>
+
+        {/* ── Scroll indicator ──────────────────────────────────── */}
+        <div className="pb-8 flex flex-col items-center gap-1.5 text-ABAP-cream/30 z-20">
           <motion.div
-            className="flex gap-8 md:gap-16 items-center px-[20vw]"
-            style={{ x: xMovement }}
+            animate={{ y: [0, 5, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
           >
-            {CAROUSEL_IMAGES.map((src, i) => (
-              <div
-                key={i}
-                className="min-w-[70vw] md:min-w-[40vw] aspect-video rounded-[3rem] overflow-hidden shadow-2xl border-4 border-KIKIAI-charcoal/20 flex-shrink-0 group"
-              >
-                <img src={src} alt="Product view" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-              </div>
-            ))}
+            <ChevronDown size={18} />
           </motion.div>
+          <span className="font-body uppercase tracking-[0.25em] text-[10px]">
+            Scroll to continue
+          </span>
         </div>
 
-        <div className="z-10 text-KIKIAI-cream font-body uppercase tracking-[0.3em] mt-10 opacity-60">
-          ISSUE NO. 00124
-        </div>
       </div>
     </section>
   );

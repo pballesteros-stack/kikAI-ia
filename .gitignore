@@ -2,3 +2,6 @@
 dist/
 .env
 .env.local
+.claude/
+*-deploy.zip
+abapcloud_web.zip

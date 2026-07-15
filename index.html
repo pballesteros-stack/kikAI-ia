@@ -1,22 +1,32 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kikAI — Sit. Place. Think.</title>
-    <meta name="description" content="kikAI — The world's most unnecessarily sophisticated coaster." />
-    <meta property="og:title" content="kikAI" />
-    <meta property="og:description" content="The world's most unnecessarily sophisticated coaster." />
-    <meta property="og:image" content="/og-image.png" />
+    <title>ABAPCloud.cl — Consultora especializada en SAP BTP y Clean Core</title>
+    <meta name="description" content="ABAPCloud.cl es una consultora especializada en tecnologías SAP de última generación: SAP BTP, ABAP Cloud, RAP, CAP, Fiori, Integration Suite, HANA Cloud y Build, siguiendo la estrategia Clean Core." />
+    <meta name="keywords" content="SAP BTP, ABAP Cloud, RAP, CAP, Fiori, SAPUI5, Integration Suite, HANA Cloud, Clean Core, APIs SAP, Desarrollo SAP, Chile" />
+    <meta property="og:title" content="ABAPCloud.cl — Consultora especializada en SAP BTP y Clean Core" />
+    <meta property="og:description" content="Impulsamos la transformación digital con soluciones SAP modernas, escalables y preparadas para el futuro, siguiendo la estrategia Clean Core." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Chat Widget IA — Shadow DOM, no interfiere con Tailwind -->
+    <script src="/chat-widget.iife.js"></script>
+    <kika-chat
+      webhook-url="https://flows.kikaia.cl/webhook/abapcloud-chat"
+      bot-name="Rodrigo AI"
+      primary-color="#1e3a8a"
+      welcome-message="¡Hola! Soy Rodrigo de abapcloud. ¿En qué te puedo ayudar?"
+      position="bottom-right"
+      placeholder="Pregúntame sobre SAP/ABAP..."
+    ></kika-chat>
   </body>
 </html>

@@ -1,21 +1,26 @@
-﻿/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        'KIKIAI-black': '#000000',
-        'KIKIAI-charcoal': '#1a1a1a',
-        'KIKIAI-olive': '#4a5d23',
-        'KIKIAI-burnt': '#cc5500',
-        'KIKIAI-cream': '#FCFBF7',
-        'KIKIAI-orange': '#FF5C00',
-        'KIKIAI-neon-magenta': '#ff00ff',
-        'KIKIAI-neon-cyan': '#00ffff',
+        // Semantic tokens — todos apuntan a CSS variables.
+        // Para agregar un tema nuevo: sólo editar index.css.
+        'sap-bg':      'rgb(var(--sap-bg)      / <alpha-value>)',
+        'sap-surface': 'rgb(var(--sap-surface)  / <alpha-value>)',
+        'sap-deep':    'rgb(var(--sap-deep)      / <alpha-value>)',
+        'sap-accent':  'rgb(var(--sap-accent)    / <alpha-value>)',
+        'sap-accent2': 'rgb(var(--sap-accent2)   / <alpha-value>)',
+        'sap-tint':    'rgb(var(--sap-tint)      / <alpha-value>)',
+        'sap-ink':     'rgb(var(--sap-ink)       / <alpha-value>)',
+        'sap-slate':   'rgb(var(--sap-slate)     / <alpha-value>)',
+        'sap-muted':   'rgb(var(--sap-muted)     / <alpha-value>)',
+        'sap-border':  'rgb(var(--sap-border)    / <alpha-value>)',
       },
       fontFamily: {
-        headline: ['Oswald', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
+        sans:     ['Inter', 'sans-serif'],
+        headline: ['Inter', 'sans-serif'],
+        body:     ['Inter', 'sans-serif'],
       },
     },
   },

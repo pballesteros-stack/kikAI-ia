@@ -1,23 +1,39 @@
-import { Navigation, HeroKikAI, ConceptSection, PortabilityCarousel, ThermalSection, GripSection, ProductEnd } from './components';
+import { LanguageProvider } from './context/LanguageContext';
+import NavSAP        from './components/sap/NavSAP';
+import HeroSAP       from './components/sap/HeroSAP';
+import ValorSAP      from './components/sap/ValorSAP';
+import GaleriaSAP    from './components/sap/GaleriaSAP';
+import ProblemsSAP   from './components/sap/ProblemsSAP';
+import ServicesSAP   from './components/sap/ServicesSAP';
+import DiferencialSAP from './components/sap/DiferencialSAP';
+import MetodologiaSAP from './components/sap/MetodologiaSAP';
+import CasosUsoSAP    from './components/sap/CasosUsoSAP';
+import FAQSAP         from './components/sap/FAQSAP';
+import CTAFinalSAP   from './components/sap/CTAFinalSAP';
+import FooterSAP     from './components/sap/FooterSAP';
+import ThemeToggle   from './components/sap/ThemeToggle';
 
 function App() {
   return (
-    <div className="min-h-screen">
-      {/* Cinematic film grain overlay — defined in index.css */}
-      <div className="film-grain" />
-
-      <Navigation />
-
-      <main>
-        <HeroKikAI />
-        <ConceptSection />
-        <PortabilityCarousel />
-        <ThermalSection />
-        <GripSection />
-      </main>
-
-      <ProductEnd />
-    </div>
+    <LanguageProvider>
+      <div className="min-h-screen bg-sap-bg">
+        <NavSAP />
+        <main>
+          <HeroSAP />
+          <ValorSAP />
+          <GaleriaSAP />
+          <ProblemsSAP />
+          <ServicesSAP />
+          <DiferencialSAP />
+          <MetodologiaSAP />
+          <CasosUsoSAP />
+          <FAQSAP />
+          <CTAFinalSAP />
+        </main>
+        <FooterSAP />
+        <ThemeToggle />
+      </div>
+    </LanguageProvider>
   );
 }
 
